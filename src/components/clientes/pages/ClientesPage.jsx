@@ -9,6 +9,7 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 export const ClientesPage = () => {
 
   const [datos, setDatos] = useState([]);
+  const [isDelete, setIsDelete] = useState(false);
 
   const consultarAPI = async () => {
     const resp = await clienteAxios.get('/clientes');
@@ -19,7 +20,7 @@ export const ClientesPage = () => {
 
   useEffect(() => {
     consultarAPI();
-  }, []);
+  }, [isDelete]);
 
   return (
     <>
@@ -37,6 +38,7 @@ export const ClientesPage = () => {
             <Cliente
               key={client._id}
               client={client}
+              setIsDelete={setIsDelete}
             />
           ))
         }
