@@ -1,14 +1,14 @@
-import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { clienteAxios } from "../../api/axios";
 
-export const Cliente = ({ client, setIsDelete }) => {
+export const Cliente = ({ client, setIsDelete = false, botones = true }) => {
 
     const { _id, nombre, apellido, empresa, email, telefono } = client;
 
-    const handleDelete = async() => {
+    const handleDelete = async () => {
         Swal.fire({
             title: "¿Está seguro de eliminar este cliente?",
             text: "¡No podrás revertir esta acción!",
@@ -27,14 +27,13 @@ export const Cliente = ({ client, setIsDelete }) => {
                             icon: "success",
                             confirmButtonColor: "#198754"
                         }).then(result => {
-                            if(result.isConfirmed) {
-                                // window.location.reload();
+                            if (result.isConfirmed) {
                                 setIsDelete(true);
                             }
                         });
                     });
             }
-        });        
+        });
     }
 
     return (
@@ -42,18 +41,25 @@ export const Cliente = ({ client, setIsDelete }) => {
             <div className="card mb-3">
                 <div className="card-body">
                     <h5 className="card-title">{nombre} {apellido}</h5>
-                    <ul className="list-group list-group-flush">
-                        <li className="list-group-item">{empresa}</li>
-                        <li className="list-group-item">{email}</li>
-                        <li className="list-group-item">{telefono}</li>
+                    <ul className="list-group list-group-flush mb-3">
+                        <li className="list-group-item"><strong>Nombre de la empresa:</strong> {empresa}</li>
+                        <li className="list-group-item"><strong>Correo:</strong> {email}</li>
+                        <li className="list-group-item"><strong>Telefono:</strong> {telefono}</li>
                     </ul>
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-end">
 
-                        <Link className="list-group-item" to={`/clientes/editar/${_id}`}>
-                            <button className="btn btn-primary" type="button"><FontAwesomeIcon icon={faUserPen} /> Editar</button>
-                        </Link>
-                        <button className="btn btn-danger" type="button" onClick={handleDelete}><FontAwesomeIcon icon={faTrash} /> Eliminar</button>
-                    </div>
+                    {
+                        botones &&
+                        <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                            <Link className="list-group-item" to={`/clientes/editar/${_id}`}>
+                                <button className="btn btn-primary" type="button"><FontAwesomeIcon icon={faUserPen} /> Editar</button>
+                            </Link>
+                            <Link className="list-group-item" to={`/pedidos/nuevo/${_id}`}>
+                                <button className="btn btn-warning" type="button"><FontAwesomeIcon icon={faCartPlus} /> Nuevo pedido</button>
+                            </Link>
+                            <button className="btn btn-danger" type="button" onClick={handleDelete}><FontAwesomeIcon icon={faTrash} /> Eliminar</button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>

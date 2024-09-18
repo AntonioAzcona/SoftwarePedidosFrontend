@@ -1,5 +1,5 @@
 // Layout
-import { Header, NavbarLeft } from "./ui";
+import { Navbar, NavbarLeft } from "./ui";
 
 import { AppRouter } from "./router/AppRouter";
 
@@ -8,7 +8,7 @@ export const App = () => {
     <>
       <div className="container-fluidcontainer-xxl">
         <div className="row">
-          <Header />
+          <Navbar />
         </div>
 
         <div className="row">
@@ -16,7 +16,6 @@ export const App = () => {
             <NavbarLeft />
           </div>
           <div className="col-9 p-5">
-            {/* TODO: Routing a los diferentes componentes */}
             <AppRouter />
           </div>
         </div>

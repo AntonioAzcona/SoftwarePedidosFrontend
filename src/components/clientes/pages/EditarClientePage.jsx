@@ -44,7 +44,7 @@ export const EditarClientePage = () => {
 
     const actualizarCliente = async (e) => {
         e.preventDefault();
-        const resp = await clienteAxios.put(`/clientes/${idClient}`, formState)
+        await clienteAxios.put(`/clientes/${idClient}`, formState)
             .then(response => {
                 if (response.data.code === 11000) {
                     console.log('Duplicidad en uno o varios campos en la DB');
@@ -162,7 +162,6 @@ export const EditarClientePage = () => {
                                 <FontAwesomeIcon icon={faLeftLong} /> Regresar
                             </button>
                         </Link>
-
                     </div>
                 </div>
             </form>

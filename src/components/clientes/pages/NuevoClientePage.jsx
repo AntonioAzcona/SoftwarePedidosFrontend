@@ -28,7 +28,7 @@ export const NuevoClientePage = () => {
   const handleSubmitClient = async (e) => {
     e.preventDefault();
     
-    const resp = await clienteAxios.post('/clientes', formState)
+    await clienteAxios.post('/clientes', formState)
       .then(response => {
         if (response.data.code === 11000) {
           console.log('Duplicidad en uno o varios campos en la DB');

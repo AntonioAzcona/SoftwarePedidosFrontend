@@ -5,17 +5,18 @@ import { Link } from "react-router-dom";
 import { Cliente } from '../Cliente';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { Spinner } from '../../../ui/layout/Spinner';
 
 export const ClientesPage = () => {
 
-  const [datos, setDatos] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
 
   const consultarAPI = async () => {
     const resp = await clienteAxios.get('/clientes');
     const { data } = await resp;
 
-    setDatos(data);
+    setClientes(data);
   }
 
   useEffect(() => {
@@ -32,17 +33,23 @@ export const ClientesPage = () => {
         </button>
       </Link>
 
-      <div className="row">
-        {
-          datos?.map((client) => (
-            <Cliente
-              key={client._id}
-              client={client}
-              setIsDelete={setIsDelete}
-            />
-          ))
-        }
-      </div>
+      {
+        clientes.length > 0
+          ?
+          <div className="row">
+            {
+              clientes?.map((client) => (
+                <Cliente
+                  key={client._id}
+                  client={client}
+                  setIsDelete={setIsDelete}
+                />
+              ))
+            }
+          </div> : <Spinner />
+      }
+
+
     </>
   )
 }

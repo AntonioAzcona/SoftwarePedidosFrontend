@@ -1,5 +1,5 @@
 
-export const Header = () => {
+export const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-md bg-dark py-3" data-bs-theme="dark">
       <div className="container">
