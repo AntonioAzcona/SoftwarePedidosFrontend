@@ -1,20 +1,20 @@
-import { faFloppyDisk, faLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { clienteAxios } from "../../../api/axios";
 import { useForm } from "../../../hooks/useForm";
 import { useEffect, useState } from "react";
 import { Cliente } from "../../clientes/Cliente";
+import { BuscarProducto } from "../../productos/BuscarProducto";
+import { ProductosPage } from "../../productos/pages/ProductosPage";
 
 export const NuevoPedidoPage = () => {
 
-    const navigate = useNavigate();
     const { idClient } = useParams();
 
     const [clientes, setClientes] = useState([]);
     const [selectedClient, setSelectedClient] = useState({});
+    const [foundProducts, setFoundProducts] = useState([]);
 
     const { formState, onInputChange, onResetForm } = useForm({
         cliente: '',
@@ -37,7 +37,6 @@ export const NuevoPedidoPage = () => {
         const { data } = await resp;
 
         setClientes(data);
-        console.log(data);
 
         const foundClient = data?.find(element => element._id == idClient);
         setSelectedClient(foundClient);
@@ -103,20 +102,19 @@ export const NuevoPedidoPage = () => {
     //     onResetForm();
     // }
 
-
     return (
         <>
             <h2 className="mb-4">Realizar un nuevo pedido</h2>
 
-            <h3>Datos del cliente</h3>
+            <legend>Datos del cliente</legend>
             <Cliente
                 client={selectedClient}
                 botones={false}
             />
 
-            <form onSubmit={handleSubmitOrder}>
+            {/* <form onSubmit={handleSubmitOrder}> */}
 
-                {/* <div className="row">
+            {/* <div className="row">
                     <div className="col-sm-4 mb-3 mb-sm-0">
                         <label htmlFor="Seleccionar cliente">Clientes</label>
                         <select defaultValue={'DEFAULT'} className="form-select mt-1" aria-label="Default select example">
@@ -133,8 +131,16 @@ export const NuevoPedidoPage = () => {
                     </div>
                 </div> */}
 
-                <legend>Agrega productos a tu pedido</legend>
-            </form>
+
+            <legend>Agrega productos a tu pedido</legend>
+
+            <BuscarProducto
+                setFoundProducts={setFoundProducts}
+            />
+
+            {/* <ProductosPage /> */}
+
+            {/* </form> */}
         </>
     )
 }
