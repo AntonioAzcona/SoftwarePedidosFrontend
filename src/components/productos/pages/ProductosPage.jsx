@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Producto } from '../Producto';
 import { Spinner } from '../../../ui/layout/Spinner';
 
-export const ProductosPage = () => {
+export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAccion = true, btnAddToCar = false, cart, setCart }) => {
 
   const [productos, setProductos] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
@@ -16,22 +16,30 @@ export const ProductosPage = () => {
     const resp = await clienteAxios.get('/productos');
     const { data } = await resp;
 
-    setProductos(data);
+    if (foundProducts.length > 0) {
+      setProductos(foundProducts);
+      console.log(foundProducts);
+    } else {
+      setProductos(data);
+    }
   }
 
   useEffect(() => {
     consultarAPI();
-  }, [isDelete]);
+  }, [isDelete, foundProducts]);
 
   return (
     <>
       <h2>Productos</h2>
 
-      <Link className="list-group-item" to="/productos/nuevo">
-        <button className="btn btn-success mb-3" type="button">
-          <FontAwesomeIcon icon={faUserPlus} /> Nuevo Producto
-        </button>
-      </Link>
+      {
+        btnNewProduct &&
+        <Link className="list-group-item" to="/productos/nuevo">
+          <button className="btn btn-success mb-3" type="button">
+            <FontAwesomeIcon icon={faUserPlus} /> Nuevo Producto
+          </button>
+        </Link>
+      }
 
       {
         productos.length > 0
@@ -42,6 +50,10 @@ export const ProductosPage = () => {
                   key={product._id}
                   product={product}
                   setIsDelete={setIsDelete}
+                  botones={btnsAccion}
+                  btnAddToCar={btnAddToCar}
+                  cart={cart}
+                  setCart={setCart}
                 />
               ))
             }

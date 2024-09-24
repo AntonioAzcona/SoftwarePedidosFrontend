@@ -1,12 +1,15 @@
-import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus, faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { clienteAxios } from "../../api/axios";
+import { useState } from "react";
 
-export const Producto = ({ product, setIsDelete, botones = true }) => {
+export const Producto = ({ product, setIsDelete, botones = true, btnAddToCar, cart, setCart }) => {
 
   const { _id, nombre, precio, imagen } = product;
+  const [isSelectedProduct, setIsSelectedProduct] = useState(false);
+  const [quantityProduct, setQuantityProduct] = useState(1);
 
   const handleDelete = async () => {
     Swal.fire({
@@ -36,6 +39,16 @@ export const Producto = ({ product, setIsDelete, botones = true }) => {
     });
   }
 
+  const handleAddToCar = () => {
+    setIsSelectedProduct(true);
+    setCart([...cart, { 'producto': product._id, cantidad: quantityProduct }]);
+  }
+
+  const handleQuantityProduct = (e) => {
+    setIsSelectedProduct(false);
+    setQuantityProduct(e.target.value)
+  }
+
   return (
     <div className="col-sm-6 mb-3 mb-sm-0">
       <div className="card mb-3">
@@ -43,19 +56,16 @@ export const Producto = ({ product, setIsDelete, botones = true }) => {
           imagen && <img src={`http://localhost:5001/${imagen}`} className="card-img-top" alt={imagen} />
         }
         <div className="card-body">
-          <div className="row align-items-center">
 
-            <div className="col-sm-6">
-              <h5 className="card-title">{nombre}</h5>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">$ {precio}</li>
-              </ul>
-            </div>
+          <div className="row">
+            <div className="col-sm-6"><h5 className="card-title">{nombre}</h5></div>
+            <div className="col-sm-6 text-end ml-6"><span className="mx-2">${precio}</span></div>
+          </div>
 
-
+          <div className="row">
             {
               botones &&
-              <div className="col-sm-6">
+              <div className="col-sm-12">
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                   <Link className="list-group-item" to={`/productos/editar/${_id}`}>
                     <button className="btn btn-primary" type="button"><FontAwesomeIcon icon={faUserPen} /> Editar</button>
@@ -65,7 +75,25 @@ export const Producto = ({ product, setIsDelete, botones = true }) => {
               </div>
             }
 
-
+            {
+              btnAddToCar &&
+              <div className="d-flex flex-row-reverse align-items-center">
+                <div className="col-sm-auto">
+                  <button className="btn btn-primary" type="button" onClick={handleAddToCar} disabled={isSelectedProduct}><FontAwesomeIcon icon={faCartPlus} /> Añadir</button>
+                </div>
+                <div className="col-sm-2 px-2">
+                  <input
+                    className="form-control"
+                    type="number"
+                    value={quantityProduct}
+                    onChange={handleQuantityProduct}
+                  />
+                </div>
+                <div className="col-sm-auto">
+                  <span>Cantidad:</span>
+                </div>
+              </div>
+            }
           </div>
         </div>
       </div>

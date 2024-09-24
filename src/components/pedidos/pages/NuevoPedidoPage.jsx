@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { Cliente } from "../../clientes/Cliente";
 import { BuscarProducto } from "../../productos/BuscarProducto";
 import { ProductosPage } from "../../productos/pages/ProductosPage";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBan, faUserCheck } from "@fortawesome/free-solid-svg-icons";
 
 export const NuevoPedidoPage = () => {
 
@@ -15,6 +17,7 @@ export const NuevoPedidoPage = () => {
     const [clientes, setClientes] = useState([]);
     const [selectedClient, setSelectedClient] = useState({});
     const [foundProducts, setFoundProducts] = useState([]);
+    const [cart, setCart] = useState([]);
 
     const { formState, onInputChange, onResetForm } = useForm({
         cliente: '',
@@ -43,12 +46,18 @@ export const NuevoPedidoPage = () => {
     }
 
     const validationForm = () => {
-        return !(!!cliente.length && pedido.length > 0 && !!total.length);
+        // return !(!!cliente.length && pedido.length > 0 && !!total.length);
     }
 
     const handleSubmitOrder = async (e) => {
         e.preventDefault();
-        console.log('handleSubmitOrder');
+        const order = {
+            "cliente": idClient,
+            "pedido": cart,
+            "total": "129.99"
+        }
+        console.log(cart);
+        // console.log('handleSubmitOrder');
     }
 
     // const handleSubmitOrder = async (e) => {
@@ -138,7 +147,26 @@ export const NuevoPedidoPage = () => {
                 setFoundProducts={setFoundProducts}
             />
 
-            {/* <ProductosPage /> */}
+            <ProductosPage
+                foundProducts={foundProducts}
+                btnNewProduct={false}
+                btnsAccion={false}
+                btnAddToCar={true}
+                cart={cart}
+                setCart={setCart}
+            />
+
+            <div className="col-12 d-flex justify-content-end align-items-center column-gap-2">
+                <button type="button" className="btn btn-success" onClick={handleSubmitOrder} disabled={validationForm()}>
+                    <FontAwesomeIcon icon={faUserCheck} /> Realizar pedido
+                </button>
+
+                <Link className="list-group-item" to="/clientes/">
+                    <button className="btn btn-danger" type="button">
+                        <FontAwesomeIcon icon={faBan} /> Cancelar
+                    </button>
+                </Link>
+            </div>
 
             {/* </form> */}
         </>
