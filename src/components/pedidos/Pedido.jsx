@@ -48,7 +48,7 @@ export const Pedido = ({ pedido: order, setIsDelete }) => {
                                 <Producto
                                     key={producto.producto._id}
                                     product={producto.producto}
-                                    botones={false}
+                                    actionButtons={false}
                                 />
                             ))
                         }

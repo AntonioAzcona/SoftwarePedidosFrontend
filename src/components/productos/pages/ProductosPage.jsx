@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Producto } from '../Producto';
 import { Spinner } from '../../../ui/layout/Spinner';
 
-export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAccion = true, btnAddToCar = false, cart, setCart }) => {
+export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAccion = true, btnAddToCart = false, cart, setCart }) => {
 
   const [productos, setProductos] = useState([]);
   const [isDelete, setIsDelete] = useState(false);
@@ -18,7 +18,6 @@ export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAc
 
     if (foundProducts.length > 0) {
       setProductos(foundProducts);
-      console.log(foundProducts);
     } else {
       setProductos(data);
     }
@@ -50,8 +49,8 @@ export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAc
                   key={product._id}
                   product={product}
                   setIsDelete={setIsDelete}
-                  botones={btnsAccion}
-                  btnAddToCar={btnAddToCar}
+                  actionButtons={btnsAccion}
+                  btnAddToCart={btnAddToCart}
                   cart={cart}
                   setCart={setCart}
                 />

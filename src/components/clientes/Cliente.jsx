@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { clienteAxios } from "../../api/axios";
 
-export const Cliente = ({ client, setIsDelete = false, botones = true }) => {
+export const Cliente = ({ client, setIsDelete = false, actionButtons = true }) => {
 
     const { _id, nombre, apellido, empresa, email, telefono } = client;
 
@@ -48,7 +48,7 @@ export const Cliente = ({ client, setIsDelete = false, botones = true }) => {
                     </ul>
 
                     {
-                        botones &&
+                        actionButtons &&
                         <div className="d-grid gap-2 d-md-flex justify-content-md-end">
 
                             <Link className="list-group-item" to={`/clientes/editar/${_id}`}>

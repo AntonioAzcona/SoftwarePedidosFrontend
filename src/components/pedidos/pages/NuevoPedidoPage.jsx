@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 import { clienteAxios } from "../../../api/axios";
@@ -8,16 +8,19 @@ import { Cliente } from "../../clientes/Cliente";
 import { BuscarProducto } from "../../productos/BuscarProducto";
 import { ProductosPage } from "../../productos/pages/ProductosPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBan, faUserCheck } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { Modal } from "../../Modal";
 
 export const NuevoPedidoPage = () => {
 
+    const navigate = useNavigate();
     const { idClient } = useParams();
 
     const [clientes, setClientes] = useState([]);
     const [selectedClient, setSelectedClient] = useState({});
     const [foundProducts, setFoundProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [order, serOrder] = useState([]);
 
     const { formState, onInputChange, onResetForm } = useForm({
         cliente: '',
@@ -49,67 +52,61 @@ export const NuevoPedidoPage = () => {
         // return !(!!cliente.length && pedido.length > 0 && !!total.length);
     }
 
-    const handleSubmitOrder = async (e) => {
+    const handleSubmitOrder = (e) => {
         e.preventDefault();
-        const order = {
+
+        let total = 0;
+        cart.map(elemento => {
+            total += elemento.precio * elemento.cantidad;
+        });
+
+        const finalOrder = {
             "cliente": idClient,
             "pedido": cart,
-            "total": "129.99"
+            "total": total
         }
-        console.log(cart);
-        // console.log('handleSubmitOrder');
+
+        serOrder(finalOrder);
     }
 
-    // const handleSubmitOrder = async (e) => {
-    //     e.preventDefault();
+    const handleCompleteModal = async () => {
 
-    //     const formData = new FormData();
-    //     formData.append('nombre', nombre);
-    //     formData.append('precio', precio);
-    //     formData.append('imagen', file);
+        let newOrder = order;
+        newOrder.pedido.map(elemento => {
+            delete elemento.precio;
+            delete elemento.nombre;
+        });
 
-    //     await clienteAxios.post(`/productos`, formData, {
-    //         headers: {
-    //             'Content-Type': 'multipart/form-data'
-    //         }
-    //     }).then(response => {
-    //         if (Object.keys(response.data).length === 0) {
-    //             Swal.fire({
-    //                 icon: "warning",
-    //                 title: "Oops...",
-    //                 text: "Este producto tiene campos sin rellenar o no tiene imagen",
-    //                 confirmButtonColor: "#198754"
-    //             });
-    //         } else if (response.data.code === 11000) {
-    //             console.log('Duplicidad en uno o varios campos en la DB');
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Oops...",
-    //                 text: "Este producto tiene uno o mas campos iguales a otro producto",
-    //                 confirmButtonColor: "#198754"
-    //             });
-    //         } else {
-    //             Swal.fire({
-    //                 title: "Producto actualizado con éxito!",
-    //                 text: "Ahora te llevarémos a visualizar tus productos",
-    //                 icon: "success",
-    //                 confirmButtonColor: "#198754"
-    //             }).then(result => {
-    //                 if (result.isConfirmed) {
-    //                     navigate('/productos', {
-    //                         replace: true
-    //                     });
-    //                 }
-    //             });
-    //             console.log(response.data);
-    //         }
-    //     })
-    //         .catch(error => {
-    //             console.log('¡Ups! Ocurrió un error', error);
-    //         });
-
-    //     onResetForm();
-    // }
+        // await clienteAxios.post('/pedidos', newOrder)
+        //     .then(response => {
+        //         if (response.data.code === 11000) {
+        //             console.log('Duplicidad en uno o varios campos en la DB');
+        //             // Swal.fire({
+        //             //     icon: "error",
+        //             //     title: "Oops...",
+        //             //     text: "Ese cliente ya está registrado",
+        //             //     confirmButtonColor: "#198754"
+        //             // });
+        //         } else {
+        //             Swal.fire({
+        //                 title: "¡Pedido registrado con éxito!",
+        //                 text: "Ahora te llevarémos a visualizar tus pedidos",
+        //                 icon: "success",
+        //                 confirmButtonColor: "#198754"
+        //             }).then(result => {
+        //                 if (result.isConfirmed) {
+        //                     navigate('/pedidos', {
+        //                         replace: true
+        //                     });
+        //                 }
+        //             });
+        //             console.log(response.data);
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.log('¡Ups! Ocurrió un error', error);
+        //     });
+    }
 
     return (
         <>
@@ -118,7 +115,7 @@ export const NuevoPedidoPage = () => {
             <legend>Datos del cliente</legend>
             <Cliente
                 client={selectedClient}
-                botones={false}
+                actionButtons={false}
             />
 
             {/* <form onSubmit={handleSubmitOrder}> */}
@@ -151,14 +148,21 @@ export const NuevoPedidoPage = () => {
                 foundProducts={foundProducts}
                 btnNewProduct={false}
                 btnsAccion={false}
-                btnAddToCar={true}
+                btnAddToCart={true}
                 cart={cart}
                 setCart={setCart}
             />
 
+            <Modal
+                titulo={"Resumen de compra"}
+                cliente={selectedClient}
+                informacion={order}
+                handleCompleteModal={handleCompleteModal}
+            />
+
             <div className="col-12 d-flex justify-content-end align-items-center column-gap-2">
-                <button type="button" className="btn btn-success" onClick={handleSubmitOrder} disabled={validationForm()}>
-                    <FontAwesomeIcon icon={faUserCheck} /> Realizar pedido
+                <button type="button" className="btn btn-success" onClick={handleSubmitOrder} disabled={validationForm()} data-bs-toggle="modal" data-bs-target="#idModal">
+                    <FontAwesomeIcon icon={faCartPlus} /> Ver carrito
                 </button>
 
                 <Link className="list-group-item" to="/clientes/">

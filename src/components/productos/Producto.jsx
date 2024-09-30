@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { clienteAxios } from "../../api/axios";
 import { useState } from "react";
 
-export const Producto = ({ product, setIsDelete, botones = true, btnAddToCar, cart, setCart }) => {
+export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToCart, cart, setCart }) => {
 
   const { _id, nombre, precio, imagen } = product;
   const [isSelectedProduct, setIsSelectedProduct] = useState(false);
@@ -41,12 +41,35 @@ export const Producto = ({ product, setIsDelete, botones = true, btnAddToCar, ca
 
   const handleAddToCar = () => {
     setIsSelectedProduct(true);
-    setCart([...cart, { 'producto': product._id, cantidad: quantityProduct }]);
+
+    let auxCart = cart;
+    let existe = false;
+
+    auxCart.map((elemento, index) => {
+      if(elemento.producto == _id) {
+        auxCart[index].cantidad = quantityProduct;
+        existe=true;
+      }
+    });
+    if(!existe) {
+      auxCart.push({ 'producto': _id, cantidad: quantityProduct, precio: precio, nombre: nombre });
+    }
+
+    // console.log(auxCart);
+    setCart(auxCart);
+    // setCart([...cart, { 'producto': _id, cantidad: quantityProduct, precio: precio, nombre: nombre }]);
+
+    Swal.fire({
+      title: "Se agregó al carrito",
+      icon: "success",
+      showConfirmButton: false,
+      timer: 1000
+    });
   }
 
   const handleQuantityProduct = (e) => {
     setIsSelectedProduct(false);
-    setQuantityProduct(e.target.value)
+    setQuantityProduct(e.target.valueAsNumber);
   }
 
   return (
@@ -64,7 +87,7 @@ export const Producto = ({ product, setIsDelete, botones = true, btnAddToCar, ca
 
           <div className="row">
             {
-              botones &&
+              actionButtons &&
               <div className="col-sm-12">
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                   <Link className="list-group-item" to={`/productos/editar/${_id}`}>
@@ -76,7 +99,7 @@ export const Producto = ({ product, setIsDelete, botones = true, btnAddToCar, ca
             }
 
             {
-              btnAddToCar &&
+              btnAddToCart &&
               <div className="d-flex flex-row-reverse align-items-center">
                 <div className="col-sm-auto">
                   <button className="btn btn-primary" type="button" onClick={handleAddToCar} disabled={isSelectedProduct}><FontAwesomeIcon icon={faCartPlus} /> Añadir</button>
