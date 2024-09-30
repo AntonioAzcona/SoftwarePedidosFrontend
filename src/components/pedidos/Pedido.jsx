@@ -44,9 +44,9 @@ export const Pedido = ({ pedido: order, setIsDelete }) => {
                     <h5 className="card-title">Cliente: {cliente.nombre} {cliente.apellido}</h5>
                     <div className="row">
                         {
-                            pedido?.map(producto => (
+                            pedido?.map((producto, index) => (
                                 <Producto
-                                    key={producto.producto._id}
+                                    key={producto.producto._id + '' + index}
                                     product={producto.producto}
                                     actionButtons={false}
                                 />

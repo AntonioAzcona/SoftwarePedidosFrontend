@@ -1,27 +1,27 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useForm } from "../../hooks/useForm";
-import { clienteAxios } from "../../api/axios";
+import { useForm } from "../hooks/useForm";
+import { clienteAxios } from "../api/axios";
 
-export const BuscarProducto = ({ setFoundProducts }) => {
+export const InputSearch = ({ setFoundData, dataToFilter }) => {
 
   const { formState, onInputChange } = useForm({
-    searchedProduct: ''
+    searchedText: ''
   });
 
-  const { searchedProduct } = formState;
+  const { searchedText } = formState;
 
-  const handleSubmitSearchProduct = async (e) => {
+  const handleSubmitSearch = async (e) => {
     e.preventDefault();
 
-    const resp = await clienteAxios.get(`/productos/busqueda/${searchedProduct}`);
+    const resp = await clienteAxios.get(`/${dataToFilter}/busqueda/${searchedText}`);
     const { data } = await resp;
 
-    setFoundProducts(data);
+    setFoundData(data);
   }
 
   return (
-    <form onSubmit={handleSubmitSearchProduct}>
+    <form onSubmit={handleSubmitSearch}>
       <div className="row g-2">
         <div className="col-auto">
           <label htmlFor="inputPassword6" className="col-form-label">Productos:</label>
@@ -34,8 +34,8 @@ export const BuscarProducto = ({ setFoundProducts }) => {
               placeholder="Buscar productos"
               aria-label="Buscar productos"
               aria-describedby="basic-addon2"
-              name="searchedProduct"
-              value={searchedProduct}
+              name="searchedText"
+              value={searchedText}
               onChange={onInputChange}
             />
             <button

@@ -24,7 +24,7 @@ export const PedidosPage = () => {
   const consultarAPI = async () => {
     const resp = await clienteAxios.get('/pedidos');
     const { data } = await resp;
-
+    console.log('Pedidos', data);
     setPedidos(data);
   }
 
@@ -35,15 +35,22 @@ export const PedidosPage = () => {
     setClientes(data);
   }
 
+  const handleSelect = async (e) => {
+    const resp = await clienteAxios.get(`/pedidos/busqueda/${e.target.value}`);
+    const { data } = await resp;
+    console.log('Pedidos Busqueda', data);
+    setPedidos(data);
+  }
+
   return (
     <>
       <h2>Pedidos</h2>
 
-      <label htmlFor="Seleccionar cliente">Si desea hacer un nuevo pedido, seleccione un cliente</label>
-      <div className="row">
+      <label htmlFor="Seleccionar cliente">Filtrar pedidos por cliente</label>
+      <div className="row mt-2 mb-3">
         <div className="col-sm-5 mb-3 mb-sm-0">
           
-          <select defaultValue={'DEFAULT'} className="form-select" aria-label="Default select example">
+          <select defaultValue={'DEFAULT'} onChange={handleSelect} className="form-select" aria-label="Default select example">
             <option value="DEFAULT" disabled>Lista de clientes</option>
             {
               clientes?.map(client => (
@@ -55,16 +62,14 @@ export const PedidosPage = () => {
             }
           </select>
         </div>
-        <div className="col-sm-4 mb-3 mb-sm-0">
+        {/* <div className="col-sm-4 mb-3 mb-sm-0">
           <Link className="list-group-item" to={`/pedidos/nuevo/`}>
-            <button className="btn btn-success mb-3" type="button" disabled>
+            <button className="btn btn-success mb-3" type="button">
               <FontAwesomeIcon icon={faUserPlus} /> Nuevo Pedido
             </button>
           </Link>
-        </div>
+        </div> */}
       </div>
-
-
 
       {
         pedidos.length > 0

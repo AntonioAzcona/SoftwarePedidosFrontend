@@ -5,7 +5,7 @@ import { clienteAxios } from "../../../api/axios";
 import { useForm } from "../../../hooks/useForm";
 import { useEffect, useState } from "react";
 import { Cliente } from "../../clientes/Cliente";
-import { BuscarProducto } from "../../productos/BuscarProducto";
+import { InputSearch } from "../../InputSearch";
 import { ProductosPage } from "../../productos/pages/ProductosPage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faCartPlus } from "@fortawesome/free-solid-svg-icons";
@@ -22,7 +22,7 @@ export const NuevoPedidoPage = () => {
     const [cart, setCart] = useState([]);
     const [order, serOrder] = useState([]);
 
-    const { formState, onInputChange, onResetForm } = useForm({
+    const { formState } = useForm({
         cliente: '',
         pedido: [],
         total: ''
@@ -140,8 +140,9 @@ export const NuevoPedidoPage = () => {
 
             <legend>Agrega productos a tu pedido</legend>
 
-            <BuscarProducto
-                setFoundProducts={setFoundProducts}
+            <InputSearch
+                setFoundData={setFoundProducts}
+                dataToFilter={'productos'}
             />
 
             <ProductosPage

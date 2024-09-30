@@ -2,8 +2,6 @@ import React from 'react'
 
 export const Modal = ({ titulo, cliente, informacion, handleCompleteModal }) => {
 
-    console.log(informacion.pedido?.length > 0 && true);
-
     return (
         <>
             <div className="modal fade" id="idModal" tabIndex="-1" aria-labelledby="modalLabel" aria-hidden="true">
