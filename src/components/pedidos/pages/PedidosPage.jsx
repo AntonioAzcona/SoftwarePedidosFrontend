@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react';
 import { clienteAxios } from '../../../api/axios';
-import { Link } from "react-router-dom";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { Spinner } from '../../../ui/layout/Spinner';
 import { Pedido } from '../Pedido';
 
@@ -62,13 +58,6 @@ export const PedidosPage = () => {
             }
           </select>
         </div>
-        {/* <div className="col-sm-4 mb-3 mb-sm-0">
-          <Link className="list-group-item" to={`/pedidos/nuevo/`}>
-            <button className="btn btn-success mb-3" type="button">
-              <FontAwesomeIcon icon={faUserPlus} /> Nuevo Pedido
-            </button>
-          </Link>
-        </div> */}
       </div>
 
       {

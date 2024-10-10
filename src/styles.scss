@@ -1,0 +1,63 @@
+// $blue: #082bf4;
+// $yellow: #c9f408;
+// $green: #08f43b;
+// $black: #000000;
+// $purple: #9505ef;
+
+// $breakpoints: (
+//     sm: 576px,
+//     md: 768px,
+//     lg: 992px,
+//     xl: 1200px,
+//     xxl: 1400px
+// );
+
+// @mixin media-movil($breakpoint) {
+//     @media screen and (min-width: map-get($breakpoints, $breakpoint)) {
+//         @content;
+//     }
+// }
+
+// body {
+//     @include media-movil(sm) {
+//         .verySmallLetter {
+//             font-size: 10px;
+//         }
+//     }
+
+//     @include media-movil(md) {
+//         .smallLetters {
+//             font-size: small;
+//         }
+//     }
+
+//     @include media-movil(lg) {
+//         .smallLetters {
+//             font-size: small;
+//         }
+//     }
+
+//     @include media-movil(xl) {
+//         .xlargeLetters {
+//             font-size: medium;
+//         }
+//     }
+
+//     @include media-movil(xxl) {
+//         .xlargeLetters {
+//             font-size: small;
+//         }
+//     }
+// }
+
+.verySmallLetter {
+    font-size: 10px;
+}
+
+.smallLetters {
+    font-size: small;
+}
+
+.xlargeLetters {
+    font-size: medium;
+}

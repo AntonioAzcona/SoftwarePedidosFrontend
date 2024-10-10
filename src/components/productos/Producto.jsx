@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { clienteAxios } from "../../api/axios";
 import { useState } from "react";
 
-export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToCart, cart, setCart }) => {
+export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToCart, cart, setCart}) => {
 
   const { _id, nombre, precio, imagen } = product;
   const [isSelectedProduct, setIsSelectedProduct] = useState(false);
@@ -19,6 +19,7 @@ export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToC
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
       confirmButtonText: "¡Si, eliminarlo!"
     }).then((result) => {
       if (result.isConfirmed) {
@@ -55,10 +56,8 @@ export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToC
       auxCart.push({ 'producto': _id, cantidad: quantityProduct, precio: precio, nombre: nombre });
     }
 
-    // console.log(auxCart);
     setCart(auxCart);
-    // setCart([...cart, { 'producto': _id, cantidad: quantityProduct, precio: precio, nombre: nombre }]);
-
+   
     Swal.fire({
       title: "Se agregó al carrito",
       icon: "success",
@@ -73,7 +72,7 @@ export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToC
   }
 
   return (
-    <div className="col-sm-6 mb-3 mb-sm-0">
+    <div className="mb-3"> {/* col-sm-12 col-md-4 col-lg-4 col-xl-4 mb-sm-0 */}
       <div className="card mb-3">
         {
           imagen && <img src={`http://localhost:5001/${imagen}`} className="card-img-top" alt={imagen} />
@@ -81,7 +80,9 @@ export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToC
         <div className="card-body">
 
           <div className="row">
-            <div className="col-sm-6"><h5 className="card-title">{nombre}</h5></div>
+            <div className="col-sm-6">
+              <h5 className={actionButtons? 'card-title' : 'smallLetters'}>{nombre}</h5>
+            </div>
             <div className="col-sm-6 text-end ml-6"><span className="mx-2">${precio}</span></div>
           </div>
 

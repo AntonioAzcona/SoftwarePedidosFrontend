@@ -5,6 +5,7 @@ import { EditarClientePage } from "../components/clientes/pages/EditarClientePag
 import { NuevoProductoPage } from "../components/productos/pages/NuevoProductoPage";
 import { EditarProductoPage } from "../components/productos/pages/EditarProductoPage";
 import { NuevoPedidoPage } from "../components/pedidos/pages/NuevoPedidoPage";
+import { DetallePedidoPage } from "../components/pedidos/pages/DetallePedidoPage";
 
 export const AppRouter = () => {
   return (
@@ -18,6 +19,7 @@ export const AppRouter = () => {
       <Route path="productos/editar/:idProduct" element={<EditarProductoPage />} />
       
       <Route path="pedidos" element={<PedidosPage />} />
+      <Route path="pedidos/:idPedido" element={<DetallePedidoPage />} />
       <Route path="pedidos/nuevo/:idClient" element={<NuevoPedidoPage />} />
 
       <Route path="/*" element={<Navigate to="/clientes" />}></Route>

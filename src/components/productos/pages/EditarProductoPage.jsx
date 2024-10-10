@@ -39,8 +39,6 @@ export const EditarProductoPage = () => {
     loadProduct();
   }, [imagen])
 
-  console.log(imagen)
-
   const updateFile = ({ target }) => {
     setFile(target.files[0]);
     console.log('target', target.files[0]);
