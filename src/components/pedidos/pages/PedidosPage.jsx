@@ -20,7 +20,6 @@ export const PedidosPage = () => {
   const consultarAPI = async () => {
     const resp = await clienteAxios.get('/pedidos');
     const { data } = await resp;
-    console.log('Pedidos', data);
     setPedidos(data);
   }
 
@@ -34,7 +33,6 @@ export const PedidosPage = () => {
   const handleSelect = async (e) => {
     const resp = await clienteAxios.get(`/pedidos/busqueda/${e.target.value}`);
     const { data } = await resp;
-    console.log('Pedidos Busqueda', data);
     setPedidos(data);
   }
 

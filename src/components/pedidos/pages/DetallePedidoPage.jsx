@@ -39,27 +39,21 @@ export const DetallePedidoPage = () => {
           </ul>
 
           <h4><strong>Artículos</strong></h4>
-          <ul className="list-group list-group-flush mb-3">
-
-            <div className="row">
-              {
-                pedido?.map(({ producto }) => {
-                  return <div className="col-sm-12 col-md-4 col-lg-4 col-xl-4">
-                    <Producto
-                      key={producto._id}
-                      product={producto}
-                      setIsDelete={false}
-                      actionButtons={false}
-                      btnAddToCart={false}
-                    />
-                  </div>
-                })
-              }
-            </div>
-
-
-
-          </ul>
+          <div className="row">
+            {
+              pedido?.map(({ producto, cantidad }) => (
+                <div className="col-sm-12 col-md-4 col-lg-4 col-xl-4" key={producto._id}>
+                  <Producto
+                    product={producto}
+                    setIsDelete={false}
+                    actionButtons={false}
+                    btnAddToCart={false}
+                    cantidadArt={cantidad}
+                  />
+                </div>
+              ))
+            }
+          </div>
 
           <h4><strong>Total:</strong><span> ${total}</span></h4>
         </div>

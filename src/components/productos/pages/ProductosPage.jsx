@@ -45,9 +45,8 @@ export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAc
           ? <div className="row">
             {
               productos?.map((product) => (
-                <div className="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                <div className="col-sm-12 col-md-4 col-lg-4 col-xl-4" key={product._id}>
                   <Producto
-                    key={product._id}
                     product={product}
                     setIsDelete={setIsDelete}
                     actionButtons={btnsAccion}
@@ -60,7 +59,6 @@ export const ProductosPage = ({ foundProducts = [], btnNewProduct = true, btnsAc
             }
           </div> : <Spinner />
       }
-
     </>
   )
 }

@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { clienteAxios } from "../../api/axios";
 import { useState } from "react";
 
-export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToCart, cart, setCart}) => {
+export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToCart, cart, setCart, cantidadArt }) => {
 
   const { _id, nombre, precio, imagen } = product;
   const [isSelectedProduct, setIsSelectedProduct] = useState(false);
@@ -83,7 +83,13 @@ export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToC
             <div className="col-sm-6">
               <h5 className={actionButtons? 'card-title' : 'smallLetters'}>{nombre}</h5>
             </div>
-            <div className="col-sm-6 text-end ml-6"><span className="mx-2">${precio}</span></div>
+            <div className={`col-sm-6 text-end ${cantidadArt? 'smallLetters': ''}`}><span className="mx-2">
+              {
+                (cantidadArt)
+                ? cantidadArt + ' x ' + '$' + precio
+                : '$' + precio
+              }
+              </span></div>
           </div>
 
           <div className="row">
@@ -105,12 +111,14 @@ export const Producto = ({ product, setIsDelete, actionButtons = true, btnAddToC
                 <div className="col-sm-auto">
                   <button className="btn btn-primary" type="button" onClick={handleAddToCar} disabled={isSelectedProduct}><FontAwesomeIcon icon={faCartPlus} /> Añadir</button>
                 </div>
-                <div className="col-sm-2 px-2">
+                <div className="col-sm-4 px-2">
                   <input
                     className="form-control"
                     type="number"
                     value={quantityProduct}
                     onChange={handleQuantityProduct}
+                    min="1"
+                    max="5000"
                   />
                 </div>
                 <div className="col-sm-auto">

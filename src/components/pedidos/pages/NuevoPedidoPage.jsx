@@ -77,35 +77,29 @@ export const NuevoPedidoPage = () => {
             delete elemento.nombre;
         });
 
-        // await clienteAxios.post('/pedidos', newOrder)
-        //     .then(response => {
-        //         if (response.data.code === 11000) {
-        //             console.log('Duplicidad en uno o varios campos en la DB');
-        //             // Swal.fire({
-        //             //     icon: "error",
-        //             //     title: "Oops...",
-        //             //     text: "Ese cliente ya está registrado",
-        //             //     confirmButtonColor: "#198754"
-        //             // });
-        //         } else {
-        //             Swal.fire({
-        //                 title: "¡Pedido registrado con éxito!",
-        //                 text: "Ahora te llevarémos a visualizar tus pedidos",
-        //                 icon: "success",
-        //                 confirmButtonColor: "#198754"
-        //             }).then(result => {
-        //                 if (result.isConfirmed) {
-        //                     navigate('/pedidos', {
-        //                         replace: true
-        //                     });
-        //                 }
-        //             });
-        //             console.log(response.data);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.log('¡Ups! Ocurrió un error', error);
-        //     });
+        await clienteAxios.post('/pedidos', newOrder)
+            .then(response => {
+                if (response.data.code === 11000) {
+                    console.log('Duplicidad en uno o varios campos en la DB');
+                } else {
+                    Swal.fire({
+                        title: "¡Pedido registrado con éxito!",
+                        text: "Ahora te llevarémos a visualizar tus pedidos",
+                        icon: "success",
+                        confirmButtonColor: "#198754"
+                    }).then(result => {
+                        if (result.isConfirmed) {
+                            navigate('/pedidos', {
+                                replace: true
+                            });
+                        }
+                    });
+                    console.log(response.data);
+                }
+            })
+            .catch(error => {
+                console.log('¡Ups! Ocurrió un error', error);
+            });
     }
 
     return (
@@ -117,26 +111,6 @@ export const NuevoPedidoPage = () => {
                 client={selectedClient}
                 actionButtons={false}
             />
-
-            {/* <form onSubmit={handleSubmitOrder}> */}
-
-            {/* <div className="row">
-                    <div className="col-sm-4 mb-3 mb-sm-0">
-                        <label htmlFor="Seleccionar cliente">Clientes</label>
-                        <select defaultValue={'DEFAULT'} className="form-select mt-1" aria-label="Default select example">
-                            <option value="DEFAULT" disabled>Selecciona el cliente</option>
-                            {
-                                clientes?.map(client => (
-                                    <option
-                                        key={client._id}
-                                        value={client._id}>{client.nombre} {client.apellido}
-                                    </option>
-                                ))
-                            }
-                        </select>
-                    </div>
-                </div> */}
-
 
             <legend>Agrega productos a tu pedido</legend>
 

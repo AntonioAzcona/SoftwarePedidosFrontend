@@ -9,6 +9,8 @@ export const Pedido = ({ pedido: order, setIsDelete }) => {
 
     const { _id, cliente, pedido, total } = order;
 
+    console.log('Pedido', pedido);
+
     const handleDelete = async () => {
         Swal.fire({
             title: "¿Está seguro de eliminar este pedido?",
@@ -45,21 +47,22 @@ export const Pedido = ({ pedido: order, setIsDelete }) => {
                     <h5 className="card-title">Cliente: {cliente.nombre} {cliente.apellido}</h5>
                     <div className="row">
                         {
-                            pedido.map((producto, index) => {
-                                return (index > 1)
-                                    ? <div key={index} className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <h6>+{pedido.length - index} productos</h6>
-                                    </div>
-                                    :
-                                    <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                                        <Producto
-                                            key={producto.producto._id + '' + index}
-                                            product={producto.producto}
-                                            actionButtons={false}
-                                        />
-
-                                    </div>
-                            })
+                            pedido.map(({producto, cantidad}, index) => (
+                                (index < 2) &&
+                                <div className="col-sm-12 col-md-6 col-lg-6 col-xl-6" key={producto._id + '' + index}>
+                                    <Producto
+                                        product={producto}
+                                        actionButtons={false}
+                                        cantidadArt={cantidad}
+                                    />
+                                </div>
+                            ))
+                        }
+                        {
+                            (pedido.length > 2) &&
+                            <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <h6>+{pedido.length - 2} productos</h6>
+                            </div>
                         }
                     </div>
                     <h5 className="card-title">Total: ${total}</h5>
