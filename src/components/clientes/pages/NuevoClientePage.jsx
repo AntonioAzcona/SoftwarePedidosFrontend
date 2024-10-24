@@ -79,8 +79,8 @@ export const NuevoClientePage = () => {
                 className="form-control"
                 name="nombre"
                 aria-describedby="nombreHelp"
-                value={nombre}
                 onChange={onInputChange}
+                value={nombre}
               />
             </div>
           </div>

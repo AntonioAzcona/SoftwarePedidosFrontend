@@ -146,8 +146,6 @@ export const NuevoPedidoPage = () => {
                     </button>
                 </Link>
             </div>
-
-            {/* </form> */}
         </>
     )
 }

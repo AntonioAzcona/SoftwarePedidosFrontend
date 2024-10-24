@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { clienteAxios } from '../../../api/axios';
 import { Producto } from '../../productos/Producto';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBan, faLeftLong } from '@fortawesome/free-solid-svg-icons';
 
 export const DetallePedidoPage = () => {
 
@@ -57,6 +59,14 @@ export const DetallePedidoPage = () => {
 
           <h4><strong>Total:</strong><span> ${total}</span></h4>
         </div>
+      </div>
+
+      <div className="col-12 d-flex justify-content-end align-items-center column-gap-2">
+        <Link className="list-group-item" to="/pedidos/">
+          <button className="btn btn-warning" type="button">
+            <FontAwesomeIcon icon={faLeftLong} /> Regresar
+          </button>
+        </Link>
       </div>
     </div>
   )

@@ -6,6 +6,7 @@ import { NuevoProductoPage } from "../components/productos/pages/NuevoProductoPa
 import { EditarProductoPage } from "../components/productos/pages/EditarProductoPage";
 import { NuevoPedidoPage } from "../components/pedidos/pages/NuevoPedidoPage";
 import { DetallePedidoPage } from "../components/pedidos/pages/DetallePedidoPage";
+import { Login } from "../components/auth/Login";
 
 export const AppRouter = () => {
   return (
@@ -21,6 +22,8 @@ export const AppRouter = () => {
       <Route path="pedidos" element={<PedidosPage />} />
       <Route path="pedidos/:idPedido" element={<DetallePedidoPage />} />
       <Route path="pedidos/nuevo/:idClient" element={<NuevoPedidoPage />} />
+
+      <Route path="iniciar-sesion" element={<Login />} />
 
       <Route path="/*" element={<Navigate to="/clientes" />}></Route>
     </Routes>

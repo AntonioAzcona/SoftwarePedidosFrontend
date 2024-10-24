@@ -1,4 +1,4 @@
-import { faTrash, faUserPen } from "@fortawesome/free-solid-svg-icons";
+import { faBan, faUserPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,25 +9,23 @@ export const Pedido = ({ pedido: order, setIsDelete }) => {
 
     const { _id, cliente, pedido, total } = order;
 
-    console.log('Pedido', pedido);
-
-    const handleDelete = async () => {
+    const handleCancel = async () => {
         Swal.fire({
-            title: "¿Está seguro de eliminar este pedido?",
+            title: "¿Está seguro de cancelar este pedido?",
             text: "¡No podrás revertir esta acción!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             cancelButtonText: "Cancelar",
-            confirmButtonText: "¡Si, eliminarlo!"
+            confirmButtonText: "¡Si, cancelarlo!"
         }).then((result) => {
             if (result.isConfirmed) {
                 clienteAxios.delete(`/pedidos/${_id}`)
                     .then(response => {
                         Swal.fire({
-                            title: "¡Eliminado!",
-                            text: "El pedido fué eliminado con éxito",
+                            title: "Cancelado!",
+                            text: "El pedido fué cancelado con éxito",
                             icon: "success",
                             confirmButtonColor: "#198754"
                         }).then(result => {
@@ -71,7 +69,7 @@ export const Pedido = ({ pedido: order, setIsDelete }) => {
                         <Link className="list-group-item" to={`/pedidos/${_id}`}>
                             <button className="btn btn-info" type="button"><FontAwesomeIcon icon={faUserPen} /> Ver detalle</button>
                         </Link>
-                        <button className="btn btn-danger" type="button" onClick={handleDelete}><FontAwesomeIcon icon={faTrash} /> Eliminar</button>
+                        <button className="btn btn-danger" type="button" onClick={handleCancel}><FontAwesomeIcon icon={faBan} /> Cancelar pedido</button>
                     </div>
                 </div>
             </div>
